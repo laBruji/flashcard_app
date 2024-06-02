@@ -1,80 +1,91 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
 
+# Define color constants
+PRIMARY_COLOR = "#720026"
+SECONDARY_COLOR = "#450017"
+BACKGROUND_COLOR = "#F0F0F0"
+TEXT_COLOR_DARK = "#737374"
+TEXT_COLOR_LIGHT = "#FFFFFF"  
+
+
+# Define font constants
+FONT_FAMILY = "Chalkduster"
+FONT_SIZE_H1 = 96
+BUTTON_FONT = "Chalkboard"
+BUTTON_FONT_SIZE = 16
+
 
 class MainView(tk.Frame):
     def __init__(self, master):
-        super().__init__(master, bg=master.cget("bg"))
+        super().__init__(master, bg=BACKGROUND_COLOR)
         self.master = master
-
-        welcome_heading = tk.Label(
-            self,
-            text="Welcome!",
-            foreground="#2980B9",
-            background=master.cget("bg"),
-            font=("Times New Roman", 48),
-        )
-        welcome_heading.pack(pady=20)
-
         style = ttk.Style(master)
-        style.theme_use("default")
+        style.theme_use("clam")
 
+        # Heading 1
+        h1 = tk.Label(
+            self,
+            text="Flashcards",
+            foreground=PRIMARY_COLOR,
+            background=BACKGROUND_COLOR,
+            font=(FONT_FAMILY, FONT_SIZE_H1),
+        )
+        h1.pack(pady=(125, 0))
+
+        # Button style for memorize and quiz modes
         style.configure(
             "TButton",
-            font=("Times New Roman", 16),
-            foreground="#3498DB",
-            background=master.cget("bg"),
+            font=(BUTTON_FONT, BUTTON_FONT_SIZE),
+            foreground=TEXT_COLOR_LIGHT,
+            background=PRIMARY_COLOR,
+            bordercolor=BACKGROUND_COLOR,
         )
 
+        # Map button style for hover and active states
         style.map(
             "TButton",
-            foreground=[("active", "#2980B9")],
+            foreground=[("active", TEXT_COLOR_DARK), ("hover", TEXT_COLOR_DARK)],
+            background=[("active", SECONDARY_COLOR), ("hover", SECONDARY_COLOR)],
         )
 
-        button_frame = tk.Frame(self, background=master.cget("bg"))
-        button_frame.pack(pady=30)
+        button_frame = tk.Frame(self, background=BACKGROUND_COLOR)
+        button_frame.pack()
 
-        memorize_button = ttk.Button(
+        self.memorize_button = ttk.Button(
             button_frame,
             text="Memorize",
             style="TButton",
             command=master.show_memorize_view,
         )
-        memorize_button.grid(row=0, column=0, padx=30, pady=10)
+        self.memorize_button.grid(row=0, column=0, padx=30, pady=10)
 
-        quiz_button = ttk.Button(
+        self.quiz_button = ttk.Button(
             button_frame,
-            text="Quiz Yourself!",
+            text="Quiz",
             style="TButton",
             command=master.show_quiz_view,
         )
-        quiz_button.grid(row=0, column=1, padx=30, pady=10)
+        self.quiz_button.grid(row=0, column=1, padx=30, pady=10)
 
-        upload_button = ttk.Button(
+        # Upload file button
+        self.upload_button = ttk.Button(
             self,
             text="Upload File",
             style="TButton",
             command=self.upload_file,
         )
-        upload_button.pack(side="left", padx=30, pady=10, anchor="sw")
+        self.upload_button.pack(side="left", padx=30, pady=30, anchor="sw")
 
+        # TODO put this label closer to the upload button
         self.file_label = tk.Label(
             self,
             text="No file selected",
-            foreground="#2980B9",
-            background=master.cget("bg"),
+            foreground=TEXT_COLOR_DARK,
+            background=BACKGROUND_COLOR,
             font=("Times New Roman", 16),
         )
-        self.file_label.pack(side="left", pady=15, anchor="sw")
-
-        self.remove_button = ttk.Button(
-            self,
-            text="X",
-            style="TButton",
-            padding=0,
-            command=self.remove_file,
-        )
-        self.remove_button.pack_forget()
+        self.file_label.pack(side="left", pady=35, anchor="sw")
 
     def upload_file(self):
         file_path = filedialog.askopenfilename(
@@ -87,9 +98,4 @@ class MainView(tk.Frame):
             self.file_label.config(
                 text=f"Loaded {len(self.master.flashcards)} words from {file_path.split('/')[-1]}"
             )
-            self.remove_button.pack(side="left", pady=15, anchor="sw")
-
-    def remove_file(self):
-        self.file_label.config(text="No file selected")
-        self.remove_button.pack_forget()
-        self.master.flashcards = []
+            self.upload_button.config(text="Load new file")
