@@ -81,7 +81,7 @@ class MainView(tk.Frame):
             text="No file selected",
             foreground=TEXT_COLOR_DARK,
             background=BACKGROUND_COLOR,
-            font=("Times New Roman", 16),
+            font=("Times New Roman", BUTTON_FONT_SIZE),
         )
         self.file_label.pack(side="left", pady=35, anchor="sw")
 
