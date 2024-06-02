@@ -8,13 +8,11 @@ BACKGROUND_COLOR = "#F0F0F0"
 TEXT_COLOR_DARK = "#737374"
 TEXT_COLOR_LIGHT = "#FFFFFF"  
 
-
 # Define font constants
 FONT_FAMILY = "Chalkduster"
 FONT_SIZE_H1 = 96
 BUTTON_FONT = "Chalkboard"
 BUTTON_FONT_SIZE = 16
-
 
 class MainView(tk.Frame):
     def __init__(self, master):

@@ -1,18 +1,36 @@
 import tkinter as tk
 from tkinter import ttk
 
+# Define color constants
+PRIMARY_COLOR = "#720026"
+SECONDARY_COLOR = "#450017"
+BACKGROUND_COLOR = "#F0F0F0"
+TEXT_COLOR_DARK = "#737374"
+TEXT_COLOR_LIGHT = "#FFFFFF"
+
+# Define font constants
+FONT_FAMILY = "Chalkduster"
+FONT_SIZE_H1 = 96
+BUTTON_FONT = "Chalkboard"
+BUTTON_FONT_SIZE = 16
+
+# TODO: make sure a file is selected before entering this mode
+# TODO: add check box to mark a word as learned
+# TODO: change logic that shows the cards
+
 class MemorizeView(tk.Frame):
     def __init__(self, master):
-        super().__init__(master, bg=master.cget("bg"))
+        super().__init__(master, bg=BACKGROUND_COLOR)
         self.master = master
         self.index = 0
 
         self.flashcard_label = tk.Label(
             self,
-            font=("Times New Roman", 48),
-            background=master.cget("bg"),
+            font=(FONT_FAMILY, FONT_SIZE_H1),
+            foreground=PRIMARY_COLOR,
+            background=BACKGROUND_COLOR,
         )
-        self.flashcard_label.pack(pady=50)
+        self.flashcard_label.pack(pady=100)
 
         self.flip_button = ttk.Button(
             self,

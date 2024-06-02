@@ -5,13 +5,14 @@ from views.main_view import MainView
 from views.memorize_view import MemorizeView
 from views.quiz_view import QuizView
 
-
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.flashcards = []
         self.title("Vocab Practice")
         self.geometry("800x600")
+        self.memorize_view = None
+        self.quiz_view = None
         self.main_view = MainView(self)
         self.main_view.pack(fill="both", expand=True)
 
@@ -29,6 +30,8 @@ class App(tk.Tk):
         self.quiz_view.pack(fill="both", expand=True)
 
     def show_main_view(self):
-        self.memorize_view.pack_forget()
-        self.quiz_view.pack_forget()
+        if self.memorize_view:
+            self.memorize_view.pack_forget()
+        elif self.quiz_view:
+            self.quiz_view.pack_forget()
         self.main_view.pack(fill="both", expand=True)
